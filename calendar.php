@@ -12,3 +12,15 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+define('WPPC_DIR', plugin_dir_path(__FILE__));
+define('WPPC_URL', plugin_dir_url(__FILE__));
+
+require_once(WPPC_DIR . 'include/Core.php');
+
+function wppc()
+{
+    return WPPC_Core::instance();
+}
+
+wppc();
