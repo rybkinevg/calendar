@@ -5,7 +5,7 @@
 [wppc_calendar]
 
 ## Attributes
-id = calendar
-post_type = post
-orderby = date
-class_name = wppc-calendar
+* id = calendar
+* post_type = post
+* orderby = date
+* class_name = wppc-calendar
