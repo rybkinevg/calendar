@@ -1,2 +1,5 @@
-# calendar
-wp plugin
+# WP Posts Calendar
+
+## Usage
+
+Shortcode [wppc-calendar]
