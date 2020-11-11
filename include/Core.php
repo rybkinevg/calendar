@@ -7,6 +7,13 @@ class WPPC_Core
     public function __construct()
     {
         $this->hooks();
+        $this->include();
+    }
+
+    public function include()
+    {
+        require_once(WPPC_DIR . 'include/Shortcode.php');
+        new WPPC_Shortcode();
     }
 
     public function hooks()
