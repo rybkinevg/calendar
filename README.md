@@ -4,7 +4,7 @@ Simple WordPress plugin which adds a calendar with marked post dates or custom p
 
 ## Usage
 
-[wppc_calendar]
+[ wppc_calendar ]
 
 ## Attributes
 * id = calendar
