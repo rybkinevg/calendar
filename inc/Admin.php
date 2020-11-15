@@ -10,8 +10,8 @@ class WPPC_Admin
 
     public function hooks()
     {
-        add_action('init', [$this, 'register_post_types']);
-        add_action('admin_menu', [$this, 'pages']);
+        add_action('init', [$this, 'create_post_types']);
+        add_action('init', [$this, 'create_taxonomies']);
     }
 
     public function include()
@@ -20,7 +20,7 @@ class WPPC_Admin
         require_once(WPPC_DIR . 'inc/custom-fields/custom-fields.php');
     }
 
-    public function register_post_types()
+    public function create_post_types()
     {
         $args = [
             'label'  => null,
@@ -48,7 +48,7 @@ class WPPC_Admin
             'menu_icon'           => null,
             'hierarchical'        => false,
             'supports'            => ['title', 'editor'],
-            'taxonomies'          => [],
+            'taxonomies'          => ['event_types'],
             'has_archive'         => true,
             'rewrite'             => true,
             'query_var'           => true,
@@ -57,27 +57,37 @@ class WPPC_Admin
         register_post_type(WPPC_Core::$post_type, $args);
     }
 
-    public function pages()
+    public function create_taxonomies()
     {
-        add_submenu_page(
-            'edit.php?post_type=' . WPPC_Core::$post_type,
-            'Test',
-            'Test menu',
-            'manage_options',
-            'import',
-            [$this, 'page_import']
-        );
-        add_submenu_page(
-            'edit.php?post_type=' . WPPC_Core::$post_type,
-            'Test 2',
-            'Test menu 2',
-            'manage_options',
-            'edit.php'
-        );
-    }
+        $args = [
+            'label'                 => '',
+            'labels'                =>
+            [
+                'name'              => 'Тип мероприятия',
+                'singular_name'     => 'Тип мероприятия',
+                'search_items'      => 'Искать тип',
+                'all_items'         => 'Все типы',
+                'view_item '        => 'Показать тип',
+                'parent_item'       => 'Родительский тип',
+                'parent_item_colon' => 'Родительский тип:',
+                'edit_item'         => 'Изменить тип',
+                'update_item'       => 'Обновить тип',
+                'add_new_item'      => 'Добавить новый тип',
+                'new_item_name'     => 'Новый тип',
+                'menu_name'         => 'Тип мероприятия',
+            ],
+            'description'           => 'Типы мероприятий',
+            'public'                => true,
+            'publicly_queryable'    => false,
+            'hierarchical'          => true,
+            'rewrite'               => true,
+            'capabilities'          => [],
+            'meta_box_cb'           => null,
+            'show_admin_column'     => false,
+            'show_in_rest'          => true,
+            'rest_base'             => null
+        ];
 
-    public function page_import()
-    {
-        echo '123';
+        register_taxonomy('event_types', [WPPC_Core::$post_type], $args);
     }
 }
