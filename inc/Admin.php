@@ -46,7 +46,7 @@ class WPPC_Admin
             'show_in_rest'        => true, // добавить в REST API. C WP 4.7
             'rest_base'           => null, // $post_type. C WP 4.7
             'menu_position'       => null,
-            'menu_icon'           => null,
+            'menu_icon'           => 'dashicons-wppc-heart-calendar',
             'hierarchical'        => false,
             'supports'            => ['title', 'editor'],
             'taxonomies'          => ['event_types'],

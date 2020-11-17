@@ -35,6 +35,7 @@ class WPPC_Core
     public function hooks()
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
+        add_action('admin_enqueue_scripts', [$this, 'admin_enqueue']);
     }
 
     public function enqueue()
@@ -88,5 +89,17 @@ class WPPC_Core
             wp_enqueue_script('wppc-script');
             wp_enqueue_script('wppc-jquery');
         }
+    }
+
+    public function admin_enqueue()
+    {
+        wp_register_style(
+            'wppc-dashicons',
+            WPPC_URL . 'admin/css/wp-posts-calendar.css',
+            [],
+            filemtime(WPPC_DIR . 'admin/css/wp-posts-calendar.css')
+        );
+
+        wp_enqueue_style('wppc-dashicons');
     }
 }
