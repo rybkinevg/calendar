@@ -83,33 +83,66 @@ class WPPC_Import
     public function import()
     {
 
-        check_ajax_referer('import_events', 'nonce'); // защита
+        check_ajax_referer('import_events', 'nonce');
 
-        if (empty($_FILES))
+        if (empty($_FILES[0]))
             wp_send_json_error('Файлов нет...');
 
-        var_dump($_POST);
+        $acceptable_mime_types = [
+            'text/plain',
+            'text/csv',
+            'text/comma-separated-values'
+        ];
 
-        //$start = microtime(true);
+        $tmp_name = $_FILES[0]['tmp_name'];
 
-        // if (wp_verify_nonce($_POST['fileup_nonce'], 'my_file_upload')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $tmp_name);
 
-        //     if (!function_exists('wp_handle_upload'))
-        //         require_once(ABSPATH . 'wp-admin/includes/file.php');
+        $file_mime_type = mime_content_type($tmp_name);
 
-        //     $file = &$_FILES['my_file_upload'];
+        if (in_array($mime_type, $acceptable_mime_types) && in_array($file_mime_type, $acceptable_mime_types)) {
 
-        //     $overrides = ['test_form' => false];
+            if (!function_exists('wp_handle_upload'))
+                require_once(ABSPATH . 'wp-admin/includes/file.php');
 
-        //     $movefile = wp_handle_upload($file, $overrides);
+            $file = $tmp_name = $_FILES[0];
 
-        //     if ($movefile && empty($movefile['error'])) {
-        //         echo '<h2>Файл успешно загружен!</h2>';
-        //         self::insert(self::csv_to_array($movefile['url']));
-        //         //echo 'Время выполнения скрипта: ' . round(microtime(true) - $start, 4) . ' сек.';
-        //     } else {
-        //         echo "Возможны атаки при загрузке файла!\n";
-        //     }
-        // }
+            $overrides = ['test_form' => false];
+
+            $movefile = wp_handle_upload($file, $overrides);
+
+            if ($movefile && empty($movefile['error'])) {
+
+                $wp_upload_dir = wp_upload_dir();
+
+                /**
+                 * TODO: добавить размер файла и имя в запрос
+                 */
+
+                $attachment = [
+                    'guid'           => $wp_upload_dir['url'] . '/' . basename($movefile['file']),
+                    'post_mime_type' => $movefile['type'],
+                    'post_title'     => preg_replace('/\.[^.]+$/', '', basename($movefile['file'])),
+                    'post_content'   => '',
+                    'post_status'    => 'inherit'
+                ];
+
+                $add_medialibrary = wp_insert_attachment($attachment, false, 0, true);
+                $attach_data = wp_generate_attachment_metadata($add_medialibrary, $movefile['url']);
+                wp_update_attachment_metadata($add_medialibrary, $attach_data);
+
+                if (!is_wp_error($add_medialibrary)) {
+                    $this->insert($this->csv_to_array($movefile['url']));
+                    wp_send_json_success('Файл загружен');
+                } else {
+                    wp_send_json_error('Не удалось создать запись в базе данных');
+                }
+            } else {
+                wp_send_json_error('Не удалось загрузить файл на сервер');
+            }
+        } else {
+            wp_send_json_error('Неверный тип файла');
+        }
     }
 }

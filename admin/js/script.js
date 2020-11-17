@@ -34,25 +34,42 @@ $(document).ready(function () {
         data.append('action', action);
         data.append('nonce', nonce);
 
-        var $reply = $('.ajax-reply');
+        console.log(data);
+
+        var $replyContainer = $('#message');
+        var $reply = $('.message-text');
 
         // AJAX запрос
-        $reply.text('Загружаю...');
+        $replyContainer.removeClass('updated error');
+        $replyContainer.show('fast');
+        $reply.text('Происходит загрузка и импорт данных');
         $.ajax({
             url: ajaxUrl,
             type: 'POST',
             data: data,
             cache: false,
-            dataType: 'json',
             // отключаем обработку передаваемых данных, пусть передаются как есть
             processData: false,
             // отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
             contentType: false,
             // функция успешного ответа сервера
-            success: function (respond) {
-                alert(respond);
+            success: function (respond, status, jqXHR) {
+                // ОК
+                if (respond.success) {
+                    $replyContainer.addClass('updated');
+                    $reply.text(respond.data);
+                }
+                // error
+                else {
+                    $replyContainer.addClass('error');
+                    $reply.text('ОШИБКА: ' + respond.data);
+                }
+            },
+            // функция ошибки ответа сервера
+            error: function (jqXHR, status, errorThrown) {
+                $replyContainer.addClass('error');
+                $reply.text('ОШИБКА AJAX запроса: ' + status);
             }
-
         });
 
     });
