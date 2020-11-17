@@ -12,6 +12,7 @@ class WPPC_Admin
     {
         add_action('init', [$this, 'create_post_types']);
         add_action('init', [$this, 'create_taxonomies']);
+        add_action('admin_menu', [$this, 'create_import_page']);
     }
 
     public function include()
@@ -89,5 +90,17 @@ class WPPC_Admin
         ];
 
         register_taxonomy('event_types', [WPPC_Core::$post_type], $args);
+    }
+
+    public function create_import_page()
+    {
+        add_submenu_page(
+            'edit.php?post_type=' . WPPC_Core::$post_type,
+            'Импорт мероприятий',
+            'Импорт',
+            'manage_options',
+            'import',
+            [WPPC_Views::class, 'import_page_view']
+        );
     }
 }

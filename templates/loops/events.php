@@ -18,7 +18,7 @@ if ($query->have_posts()) {
             </div>
             <div class="wppc-event__time">
                 Время окончания -
-                <?= carbon_get_post_meta(get_the_ID(), 'time_start') ?>
+                <?= carbon_get_post_meta(get_the_ID(), 'time_end') ?>
             </div>
             <div class="wppc-event__content">
                 Организатор -

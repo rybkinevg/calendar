@@ -14,10 +14,33 @@ Container::make('theme_options', 'Параметры мероприятий')
         ]
     )
     ->add_tab(
+        'Страница мероприятий',
+        [
+            Field::make('separator', 'events_sep', '123')
+        ]
+    )
+    ->add_tab(
+        'Страница мероприятия',
+        [
+            Field::make('separator', 'relative_events_sep', 'Похожие мероприятия'),
+            Field::make('checkbox', 'relative_events', 'Показывать похожие мероприятия')
+                ->set_option_value('yes'),
+            Field::make('separator', 'events_icons_sep', 'Иконки'),
+        ]
+    )
+    ->add_tab(
+        'Дополнительные поля мероприятий',
+        [
+            Field::make('separator', 'events_meta_sep', '123'),
+        ]
+    )
+    ->add_tab(
         'Внешний вид',
         [
+            Field::make('separator', 'events_loop_sep', 'Классы вывода мероприятий'),
             Field::make('text', 'wppc_container_classname', 'Класс контейнера'),
             Field::make('text', 'wppc_ul_classname', 'Класс списка'),
-            Field::make('text', 'wppc_li_classname', 'Класс элемента списка')
+            Field::make('text', 'wppc_li_classname', 'Класс элемента списка'),
+            Field::make('separator', 'event_loop_sep', 'Классы вывода одного мероприятия'),
         ]
     );

@@ -28,6 +28,8 @@ class WPPC_Core
         new WPPC_Ajax();
         require_once(WPPC_DIR . 'inc/Views.php');
         new WPPC_Views();
+        require_once(WPPC_DIR . 'inc/Import.php');
+        new WPPC_Import();
     }
 
     public function hooks()
@@ -66,6 +68,10 @@ class WPPC_Core
             filemtime(WPPC_DIR . 'public/js/datepicker.min.js'),
             true
         );
+
+        /**
+         * TODO: Изменить параметр кэширования filemtime
+         */
 
         wp_register_script(
             'wppc-jquery',

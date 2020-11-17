@@ -25,4 +25,9 @@ class WPPC_Views
 
         return $template;
     }
+
+    public static function import_page_view()
+    {
+        require_once(WPPC_DIR . 'templates/template_import_page.php');
+    }
 }
