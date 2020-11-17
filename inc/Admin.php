@@ -23,12 +23,12 @@ class WPPC_Admin
 
     public function create_post_types()
     {
-        $args = [
+        $events_args = [
             'label'  => null,
             'labels' => [
                 'name'               => 'Мероприятия', // основное название для типа записи
                 'singular_name'      => 'Мероприятие', // название для одной записи этого типа
-                'add_new'            => 'Добавить мероприятие', // для добавления новой записи
+                'add_new'            => 'Добавить новое', // для добавления новой записи
                 'add_new_item'       => 'Добавление мероприятия', // заголовка у вновь создаваемой записи в админ-панели.
                 'edit_item'          => 'Редактирование мероприятия', // для редактирования типа записи
                 'new_item'           => 'Новое мероприятие', // текст новой записи
@@ -55,12 +55,46 @@ class WPPC_Admin
             'query_var'           => true,
         ];
 
-        register_post_type(WPPC_Core::$post_type, $args);
+        register_post_type(WPPC_Core::$post_type, $events_args);
+
+        $organizer_args = [
+            'label'  => null,
+            'labels' => [
+                'name'               => 'Организаторы', // основное название для типа записи
+                'singular_name'      => 'Мероприятие', // название для одной записи этого типа
+                'add_new'            => 'Добавить новое', // для добавления новой записи
+                'add_new_item'       => 'Добавление мероприятия', // заголовка у вновь создаваемой записи в админ-панели.
+                'edit_item'          => 'Редактирование мероприятия', // для редактирования типа записи
+                'new_item'           => 'Новое мероприятие', // текст новой записи
+                'view_item'          => 'Смотреть мероприятие', // для просмотра записи этого типа.
+                'search_items'       => 'Искать мероприятие', // для поиска по этим типам записи
+                'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
+                'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине
+                'parent_item_colon'  => '', // для родителей (у древовидных типов)
+                'menu_name'          => 'Организаторы', // название меню
+            ],
+            'description'         => '',
+            'public'              => true,
+            'show_in_menu'        => false, // показывать ли в меню адмнки
+            // 'show_in_admin_bar'   => null, // зависит от show_in_menu
+            'show_in_rest'        => true, // добавить в REST API. C WP 4.7
+            'rest_base'           => null, // $post_type. C WP 4.7
+            'menu_position'       => null,
+            'menu_icon'           => 'dashicons-wppc-heart-calendar',
+            'hierarchical'        => false,
+            'supports'            => ['title', 'editor'],
+            'taxonomies'          => ['event_types'],
+            'has_archive'         => true,
+            'rewrite'             => true,
+            'query_var'           => true,
+        ];
+
+        register_post_type('organizer', $organizer_args);
     }
 
     public function create_taxonomies()
     {
-        $args = [
+        $events_tax_args = [
             'label'                 => '',
             'labels'                =>
             [
@@ -89,11 +123,19 @@ class WPPC_Admin
             'rest_base'             => null
         ];
 
-        register_taxonomy('event_types', [WPPC_Core::$post_type], $args);
+        register_taxonomy('event_types', [WPPC_Core::$post_type], $events_tax_args);
     }
 
     public function create_import_page()
     {
+        add_submenu_page(
+            'edit.php?post_type=' . WPPC_Core::$post_type,
+            'Организаторы',
+            'Организаторы',
+            'manage_options',
+            admin_url('edit.php?post_type=organizer')
+        );
+
         add_submenu_page(
             'edit.php?post_type=' . WPPC_Core::$post_type,
             'Импорт мероприятий',
