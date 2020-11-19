@@ -48,10 +48,48 @@ class WPPC_Import
                 $assoc_array[] = array_combine($keys, $data);
             }
             fclose($handle);
+
             return $assoc_array;
         } else {
             return false;
         }
+    }
+
+    public function keys($csv_file)
+    {
+        if (($handle = fopen($csv_file, "r")) !== false) {
+            if (($data = fgetcsv($handle, 1000, ",")) !== false) {
+                $keys = $data;
+            }
+            fclose($handle);
+
+            return $keys;
+        } else {
+            return false;
+        }
+    }
+
+    public function show_table($array)
+    {
+        print_r($array);
+    }
+
+    public function check_mimes($file)
+    {
+        $acceptable_mime_types = [
+            'text/plain',
+            'text/csv',
+            'text/comma-separated-values'
+        ];
+
+        $tmp_name = $file['tmp_name'];
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $tmp_name);
+
+        $file_mime_type = mime_content_type($tmp_name);
+
+        return in_array($mime_type, $acceptable_mime_types) && in_array($file_mime_type, $acceptable_mime_types);
     }
 
     public function insert($array)
@@ -86,27 +124,14 @@ class WPPC_Import
         check_ajax_referer('import_events', 'nonce');
 
         if (empty($_FILES[0]))
-            wp_send_json_error('Файлов нет...');
+            wp_send_json_error('Файлов нет');
 
-        $acceptable_mime_types = [
-            'text/plain',
-            'text/csv',
-            'text/comma-separated-values'
-        ];
+        $file = $_FILES[0];
 
-        $tmp_name = $_FILES[0]['tmp_name'];
-
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime_type = finfo_file($finfo, $tmp_name);
-
-        $file_mime_type = mime_content_type($tmp_name);
-
-        if (in_array($mime_type, $acceptable_mime_types) && in_array($file_mime_type, $acceptable_mime_types)) {
+        if ($this->check_mimes($file)) {
 
             if (!function_exists('wp_handle_upload'))
                 require_once(ABSPATH . 'wp-admin/includes/file.php');
-
-            $file = $tmp_name = $_FILES[0];
 
             $overrides = ['test_form' => false];
 
