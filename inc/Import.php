@@ -9,9 +9,15 @@ class WPPC_Import
 
     public function hooks()
     {
+        global $pagenow;
+
         if (is_admin()) {
             add_action('wp_ajax_import', [$this, 'import']);
             add_action('admin_enqueue_scripts', [$this, 'enqueue']);
+        }
+
+        if ( isset($_POST['action']) && $_POST['action'] == 'import' ) {
+            add_filter( 'upload_dir', [$this, 'upload_file'] );
         }
     }
 
@@ -37,9 +43,27 @@ class WPPC_Import
         wp_enqueue_script('wppc-jquery');
     }
 
+
+
+    public function get_csv_keys($csv_file)
+    {
+        if (($handle = fopen($csv_file, "r")) !== false) {
+            if (($data = fgetcsv($handle, 1000, ",")) !== false) {
+                $keys = $data;
+            }
+
+            fclose($handle);
+
+            return $keys;
+        } else {
+            return false;
+        }
+    }
+
     public function csv_to_array($csv_file)
     {
         $assoc_array = [];
+
         if (($handle = fopen($csv_file, "r")) !== false) {
             if (($data = fgetcsv($handle, 1000, ",")) !== false) {
                 $keys = $data;
@@ -55,23 +79,15 @@ class WPPC_Import
         }
     }
 
-    public function keys($csv_file)
+    public function upload_file($upload)
     {
-        if (($handle = fopen($csv_file, "r")) !== false) {
-            if (($data = fgetcsv($handle, 1000, ",")) !== false) {
-                $keys = $data;
-            }
-            fclose($handle);
-
-            return $keys;
-        } else {
-            return false;
-        }
-    }
-
-    public function show_table($array)
-    {
-        print_r($array);
+        $upload['basedir'] = WPPC_DIR;
+        $upload['baseurl'] = WPPC_URL;
+        $upload['subdir'] = 'imports';
+        $upload['url']  = $upload['baseurl'] . $upload['subdir'];
+        $upload['path'] = $upload['basedir'] . $upload['subdir'];
+        
+        return $upload;
     }
 
     public function check_mimes($file)
@@ -120,52 +136,74 @@ class WPPC_Import
 
     public function import()
     {
-
+        /**
+         * Проверка нонсы (случайного набора символов, отправляемого вместе с файлом)
+         */
         check_ajax_referer('import_events', 'nonce');
 
+        /**
+         * Пустой массив с файлами
+         */
         if (empty($_FILES[0]))
             wp_send_json_error('Файлов нет');
 
+        /**
+         * Файл
+         */
         $file = $_FILES[0];
 
+        /**
+         * Проверка типа файла
+         */
         if ($this->check_mimes($file)) {
 
+            /**
+             * Подключение работы с файлами WP
+             */
             if (!function_exists('wp_handle_upload'))
                 require_once(ABSPATH . 'wp-admin/includes/file.php');
 
+            /**
+             * Указатель, что форма не тестовая
+             */
             $overrides = ['test_form' => false];
 
+            /**
+             * Загрузка файла на сервер
+             */
             $movefile = wp_handle_upload($file, $overrides);
 
-            if ($movefile && empty($movefile['error'])) {
+            wp_send_json_success($this->csv_to_array($movefile['url']));
 
-                $wp_upload_dir = wp_upload_dir();
+            // if ($movefile && empty($movefile['error'])) {
 
-                /**
-                 * TODO: добавить размер файла и имя в запрос
-                 */
+            //     $wp_upload_dir = wp_upload_dir();
 
-                $attachment = [
-                    'guid'           => $wp_upload_dir['url'] . '/' . basename($movefile['file']),
-                    'post_mime_type' => $movefile['type'],
-                    'post_title'     => preg_replace('/\.[^.]+$/', '', basename($movefile['file'])),
-                    'post_content'   => '',
-                    'post_status'    => 'inherit'
-                ];
+            //     /**
+            //      * TODO: добавить размер файла и имя в запрос
+            //      */
 
-                $add_medialibrary = wp_insert_attachment($attachment, false, 0, true);
-                $attach_data = wp_generate_attachment_metadata($add_medialibrary, $movefile['url']);
-                wp_update_attachment_metadata($add_medialibrary, $attach_data);
+            //     $attachment = [
+            //         'guid'           => $wp_upload_dir['url'] . '/' . basename($movefile['file']),
+            //         'post_mime_type' => $movefile['type'],
+            //         'post_title'     => preg_replace('/\.[^.]+$/', '', basename($movefile['file'])),
+            //         'post_content'   => '',
+            //         'post_status'    => 'inherit'
+            //     ];
 
-                if (!is_wp_error($add_medialibrary)) {
-                    $this->insert($this->csv_to_array($movefile['url']));
-                    wp_send_json_success('Файл загружен');
-                } else {
-                    wp_send_json_error('Не удалось создать запись в базе данных');
-                }
-            } else {
-                wp_send_json_error('Не удалось загрузить файл на сервер');
-            }
+            //     $add_medialibrary = wp_insert_attachment($attachment, false, 0, true);
+            //     $attach_data = wp_generate_attachment_metadata($add_medialibrary, $movefile['url']);
+            //     wp_update_attachment_metadata($add_medialibrary, $attach_data);
+
+            //     if (!is_wp_error($add_medialibrary)) {
+            //         $this->insert($this->csv_to_array($movefile['url']));
+            //         wp_send_json_success('Файл загружен');
+            //     } else {
+            //         wp_send_json_error('Не удалось создать запись в базе данных');
+            //     }
+            // } else {
+            //     wp_send_json_error('Не удалось загрузить файл на сервер');
+            // }
         } else {
             wp_send_json_error('Неверный тип файла');
         }

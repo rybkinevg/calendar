@@ -38,6 +38,7 @@ $(document).ready(function () {
 
         var $replyContainer = $('#message');
         var $reply = $('.message-text');
+        var $table = $('.table');
 
         // AJAX запрос
         $replyContainer.removeClass('updated error');
@@ -57,7 +58,12 @@ $(document).ready(function () {
                 // ОК
                 if (respond.success) {
                     $replyContainer.addClass('updated');
-                    $reply.text(respond.data);
+
+                    const data = respond.data;
+
+                    for (let i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                    }
                 }
                 // error
                 else {
