@@ -10,7 +10,7 @@ class WPPC_Core
         /**
          * Обновление постоянных ссылок для работы кастомного типа записи
          */
-        flush_rewrite_rules();
+        delete_option( 'rewrite_rules' );
 
         $this->hooks();
         $this->include();
