@@ -62,13 +62,13 @@ $(document).ready(function () {
                 // error
                 else {
                     $replyContainer.addClass('error');
-                    $reply.text('ОШИБКА: ' + respond.data);
+                    $reply.text('Ошибка: ' + respond.data);
                 }
             },
             // функция ошибки ответа сервера
             error: function (jqXHR, status, errorThrown) {
                 $replyContainer.addClass('error');
-                $reply.text('ОШИБКА AJAX запроса: ' + status);
+                $reply.text('Ошибка AJAX запроса: ' + status);
             }
         });
 
