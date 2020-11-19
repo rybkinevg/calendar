@@ -133,7 +133,7 @@ class WPPC_Admin
             'Организаторы',
             'Организаторы',
             'manage_options',
-            admin_url('edit.php?post_type=organizer')
+            'edit.php?post_type=organizer'
         );
 
         add_submenu_page(

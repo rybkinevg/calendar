@@ -74,4 +74,13 @@ $(document).ready(function () {
 
     });
 
+    if ($('body').hasClass('post-type-organizer')) {
+        $('#menu-posts-events, #menu-posts-events a.wp-has-submenu')
+            .addClass('wp-menu-open wp-has-current-submenu wp-has-submenu')
+            .removeClass('wp-not-current-submenu')
+            .find("li a[href='edit.php?post_type=organizer']")
+            .parent()
+            .addClass('current');
+    }
+
 })

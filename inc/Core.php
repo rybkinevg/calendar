@@ -7,6 +7,11 @@ class WPPC_Core
 
     public function __construct()
     {
+        /**
+         * Обновление постоянных ссылок для работы кастомного типа записи
+         */
+        flush_rewrite_rules();
+
         $this->hooks();
         $this->include();
     }
