@@ -2,6 +2,9 @@
 
 class WPPC_Import
 {
+    public static $imported_data;
+    public static $str = '123';
+
     public function __construct()
     {
         $this->hooks();
@@ -9,15 +12,13 @@ class WPPC_Import
 
     public function hooks()
     {
-        global $pagenow;
-
         if (is_admin()) {
             add_action('wp_ajax_import', [$this, 'import']);
             add_action('admin_enqueue_scripts', [$this, 'enqueue']);
         }
 
-        if ( isset($_POST['action']) && $_POST['action'] == 'import' ) {
-            add_filter( 'upload_dir', [$this, 'upload_file'] );
+        if (isset($_POST['action']) && $_POST['action'] == 'import') {
+            add_filter('upload_dir', [$this, 'upload_file']);
         }
     }
 
@@ -86,7 +87,7 @@ class WPPC_Import
         $upload['subdir'] = 'imports';
         $upload['url']  = $upload['baseurl'] . $upload['subdir'];
         $upload['path'] = $upload['basedir'] . $upload['subdir'];
-        
+
         return $upload;
     }
 
@@ -173,39 +174,16 @@ class WPPC_Import
              */
             $movefile = wp_handle_upload($file, $overrides);
 
-            wp_send_json_success($this->csv_to_array($movefile['url']));
-
-            // if ($movefile && empty($movefile['error'])) {
-
-            //     $wp_upload_dir = wp_upload_dir();
-
-            //     /**
-            //      * TODO: добавить размер файла и имя в запрос
-            //      */
-
-            //     $attachment = [
-            //         'guid'           => $wp_upload_dir['url'] . '/' . basename($movefile['file']),
-            //         'post_mime_type' => $movefile['type'],
-            //         'post_title'     => preg_replace('/\.[^.]+$/', '', basename($movefile['file'])),
-            //         'post_content'   => '',
-            //         'post_status'    => 'inherit'
-            //     ];
-
-            //     $add_medialibrary = wp_insert_attachment($attachment, false, 0, true);
-            //     $attach_data = wp_generate_attachment_metadata($add_medialibrary, $movefile['url']);
-            //     wp_update_attachment_metadata($add_medialibrary, $attach_data);
-
-            //     if (!is_wp_error($add_medialibrary)) {
-            //         $this->insert($this->csv_to_array($movefile['url']));
-            //         wp_send_json_success('Файл загружен');
-            //     } else {
-            //         wp_send_json_error('Не удалось создать запись в базе данных');
-            //     }
-            // } else {
-            //     wp_send_json_error('Не удалось загрузить файл на сервер');
-            // }
+            if ($movefile && empty($movefile['error'])) {
+                self::$imported_data = $this->csv_to_array($movefile['url']);
+                wp_send_json_success(self::$imported_data);
+            } else {
+                wp_send_json_error('Не удалось загрузить файл на сервер');
+            }
         } else {
             wp_send_json_error('Неверный тип файла');
         }
+
+        return '123';
     }
 }

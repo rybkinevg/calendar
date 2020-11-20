@@ -5,6 +5,8 @@ $(document).ready(function () {
     var nonce = $('#nonce').attr('value');
     var action = $('#action').attr('value');
 
+    let importedData;
+
     var files; // переменная. будет содержать данные файлов
 
     // заполняем переменную данными, при изменении значения поля file
@@ -34,13 +36,11 @@ $(document).ready(function () {
         data.append('action', action);
         data.append('nonce', nonce);
 
-        console.log(data);
-
         var $replyContainer = $('#message');
         var $reply = $('.message-text');
         var $table = $('.table');
         var $tableHead = $('.table-titles tr');
-        var $tableBody = $('.table-body tr');
+        var $tableBody = $('.table-body');
 
         // AJAX запрос
         $replyContainer.removeClass('updated error');
@@ -61,34 +61,47 @@ $(document).ready(function () {
                 if (respond.success) {
                     $replyContainer.addClass('updated');
 
-                    const data = respond.data;
+                    importedData = respond.data;
 
-                    console.log(data);
+                    const selectValues = {
+                        unset: 'Не импортировать',
+                        post_title: 'Название мероприятия',
+                        post_content: 'Описание мероприятия',
+                        post_type: 'Тип мероприятия',
+                        date: 'Дата мероприятия',
+                        time_start: 'Время начала мероприятия',
+                        time_end: 'Время окончания мероприятия',
+                        organizer: 'Организатор мероприятия',
+                        address: 'Адрес мероприятия',
+                        place: 'Место проведения мероприятия'
+                    };
 
-                    // for (var i = 0; i <= data.length; i++) {
-                    //     var item = data[i];
-                    //     for (var key in item) {
-                    //         if (i == 0) {
-                    //             $tableHead.append('<td class="title">' + key + '</td>');
-                    //         }
-                    //         $tableBody.append('<td class="title">' + item[key] + '</td>');
-                    //     }
-                    // }
+                    const getSelect = (values, id) => {
+                        let options = '';
+                        for (let key in values) {
+                            options += `
+                                <option value="${key}">${values[key]}</option>
+                            `;
+                        }
+                        return `<select id="${id}" name="${id}">${options}<select>`;
+                    };
 
-                    // var result = {};
-                    // for (var i = 0; i < data.length; i++) {
-                    //     var item = data[i];
-                    //     for (var key in item) {
-                    //         if (!(key in result))
-                    //             result[key] = [];
-                    //         result[key].push(item[key]);
-                    //     }
-                    // }
+                    for (var i = 0; i < importedData.length; i++) {
+                        var item = importedData[i];
+                        var count = Object.keys(item).length;
 
-                    // for (var key in result) {
-                    //     $tableHead.append('<td class="title">' + key + '</td>');
-                    //     $tableBody.append('<td class="title">' + result[key] + '</td>');
-                    // }
+                        console.log(count);
+
+                        $tableBody.append('<tr class="row' + i + '"></tr>');
+
+                        for (var key in item) {
+                            if (i == 0) {
+                                $('tr.titles').append('<td class="title"> ' + key + '</td> ');
+                                $('tr.table-select').append('<td>' + getSelect(selectValues, key) + '</td>');
+                            }
+                            $('tr.row' + i).append('<td class="title">' + item[key] + '</td>');
+                        }
+                    }
                 }
                 // error
                 else {
@@ -102,6 +115,31 @@ $(document).ready(function () {
                 $reply.text('Ошибка AJAX запроса: ' + status);
             }
         });
+
+    });
+
+    $("#insert").submit(function (e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        let formData = {
+            action: $('#insert_action').attr('value'),
+            nonce: $('#insert_nonce').attr('value'),
+            data: importedData,
+            formData: form.serialize()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: formData, // serializes the form's elements.
+            success: function (data) {
+                alert(data); // show response from the php script.
+                console.log(data);
+            }
+        });
+
 
     });
 
