@@ -11,16 +11,16 @@
         <input id="nonce" type="hidden" name="nonce" value="<?= wp_create_nonce('import_events') ?>" />
         <a href="#" class="upload_files button">Загрузить файлы</a>
     </div>
-    <style>
-        .table {
-            display: flex;
-            flex-wrap: wrap;
-        }
+    <table class="table">
+        <thead class="table-titles">
+            <tr>
 
-        .col {
-            margin: 10px;
-            border: 1px solid;
-        }
-    </style>
-    <div class="table"></div>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
 </div>

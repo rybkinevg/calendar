@@ -39,6 +39,8 @@ $(document).ready(function () {
         var $replyContainer = $('#message');
         var $reply = $('.message-text');
         var $table = $('.table');
+        var $tableHead = $('.table-titles tr');
+        var $tableBody = $('.table-body tr');
 
         // AJAX запрос
         $replyContainer.removeClass('updated error');
@@ -61,9 +63,32 @@ $(document).ready(function () {
 
                     const data = respond.data;
 
-                    for (let i = 0; i < data.length; i++) {
-                        console.log(data[i]);
-                    }
+                    console.log(data);
+
+                    // for (var i = 0; i <= data.length; i++) {
+                    //     var item = data[i];
+                    //     for (var key in item) {
+                    //         if (i == 0) {
+                    //             $tableHead.append('<td class="title">' + key + '</td>');
+                    //         }
+                    //         $tableBody.append('<td class="title">' + item[key] + '</td>');
+                    //     }
+                    // }
+
+                    // var result = {};
+                    // for (var i = 0; i < data.length; i++) {
+                    //     var item = data[i];
+                    //     for (var key in item) {
+                    //         if (!(key in result))
+                    //             result[key] = [];
+                    //         result[key].push(item[key]);
+                    //     }
+                    // }
+
+                    // for (var key in result) {
+                    //     $tableHead.append('<td class="title">' + key + '</td>');
+                    //     $tableBody.append('<td class="title">' + result[key] + '</td>');
+                    // }
                 }
                 // error
                 else {
