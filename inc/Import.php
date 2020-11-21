@@ -2,9 +2,6 @@
 
 class WPPC_Import
 {
-    public static $imported_data;
-    public static $str = '123';
-
     public function __construct()
     {
         $this->hooks();
@@ -175,15 +172,12 @@ class WPPC_Import
             $movefile = wp_handle_upload($file, $overrides);
 
             if ($movefile && empty($movefile['error'])) {
-                self::$imported_data = $this->csv_to_array($movefile['url']);
-                wp_send_json_success(self::$imported_data);
+                wp_send_json_success($this->csv_to_array($movefile['url']));
             } else {
                 wp_send_json_error('Не удалось загрузить файл на сервер');
             }
         } else {
             wp_send_json_error('Неверный тип файла');
         }
-
-        return '123';
     }
 }

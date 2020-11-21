@@ -4,6 +4,8 @@ $(document).ready(function () {
     var ajaxUrl = ajaxurl;
     var nonce = $('#nonce').attr('value');
     var action = $('#action').attr('value');
+    var $replyContainer = $('#message');
+    var $reply = $('.message-text');
 
     let importedData;
 
@@ -36,8 +38,6 @@ $(document).ready(function () {
         data.append('action', action);
         data.append('nonce', nonce);
 
-        var $replyContainer = $('#message');
-        var $reply = $('.message-text');
         var $table = $('.table');
         var $tableHead = $('.table-titles tr');
         var $tableBody = $('.table-body');
@@ -45,7 +45,7 @@ $(document).ready(function () {
         // AJAX запрос
         $replyContainer.removeClass('updated error');
         $replyContainer.show('fast');
-        $reply.text('Происходит загрузка и импорт данных');
+        $reply.text('Происходит загрузка файла на сервер');
         $.ajax({
             url: ajaxUrl,
             type: 'POST',
@@ -60,6 +60,7 @@ $(document).ready(function () {
                 // ОК
                 if (respond.success) {
                     $replyContainer.addClass('updated');
+                    $reply.text('Загрузка файла завершена');
 
                     importedData = respond.data;
 
@@ -88,9 +89,6 @@ $(document).ready(function () {
 
                     for (var i = 0; i < importedData.length; i++) {
                         var item = importedData[i];
-                        var count = Object.keys(item).length;
-
-                        console.log(count);
 
                         $tableBody.append('<tr class="row' + i + '"></tr>');
 
@@ -130,13 +128,17 @@ $(document).ready(function () {
             formData: form.serialize()
         };
 
+        $replyContainer.removeClass('updated error');
+        $reply.text('Происходит импорт мероприятий в базу данных');
         $.ajax({
             type: "POST",
             url: ajaxUrl,
             data: formData, // serializes the form's elements.
-            success: function (data) {
-                alert(data); // show response from the php script.
-                console.log(data);
+            success: function (respond) {
+                if (respond.success) {
+                    $replyContainer.addClass('updated');
+                    $reply.text('Импорт мероприятий завершен');
+                }
             }
         });
 
