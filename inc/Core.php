@@ -10,7 +10,7 @@ class WPPC_Core
         /**
          * Обновление постоянных ссылок для работы кастомного типа записи
          */
-        delete_option( 'rewrite_rules' );
+        delete_option('rewrite_rules');
 
         $this->hooks();
         $this->include();
@@ -35,6 +35,8 @@ class WPPC_Core
         new WPPC_Views();
         require_once(WPPC_DIR . 'inc/Import.php');
         new WPPC_Import();
+        require_once(WPPC_DIR . 'inc/Insert.php');
+        new WPPC_Insert();
     }
 
     public function hooks()
