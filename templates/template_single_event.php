@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<p>test autoupdate 322dsad</p>
+<p>test autoupdate asdaxcxzcsdrer</p>
 
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
         <?php var_dump(get_post_meta($post->ID)) ?>
