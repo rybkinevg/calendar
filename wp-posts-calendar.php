@@ -4,7 +4,7 @@
  * Plugin Name: WP Posts Calendar
  * Plugin URI: https://github.com/rybkinevg/wp-posts-calendar
  * Description: Плагин для добавления календаря для разных типов записей
- * Version: 1.5
+ * Version: 1.6
  * Author: Евгений Рыбкин
  * Author URI: https://github.com/rybkinevg
  */

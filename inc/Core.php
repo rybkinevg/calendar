@@ -14,7 +14,6 @@ class WPPC_Core
 
         $this->hooks();
         $this->include();
-        $this->github_plugin_updater();
     }
 
     public static function instance()
@@ -45,6 +44,7 @@ class WPPC_Core
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue']);
+        add_action('init', [$this, 'github_plugin_updater']);
     }
 
     public function enqueue()
@@ -114,6 +114,8 @@ class WPPC_Core
 
     public function github_plugin_updater()
     {
+        define('WP_GITHUB_FORCE_UPDATE', true);
+
         if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
             $config = [
                 'slug' => 'wp-posts-calendar/wp-posts-calendar.php', // this is the slug of your plugin
