@@ -37,7 +37,6 @@ class WPPC_Core
         new WPPC_Import();
         require_once(WPPC_DIR . 'inc/Insert.php');
         new WPPC_Insert();
-        require_once(WPPC_DIR . 'inc/github-plugin-updater/updater.php');
     }
 
     public function hooks()
@@ -114,6 +113,8 @@ class WPPC_Core
 
     public function github_plugin_updater()
     {
+        include_once(WPPC_DIR . 'inc/github-plugin-updater/updater.php');
+
         define('WP_GITHUB_FORCE_UPDATE', true);
 
         if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
