@@ -120,7 +120,7 @@ class WPPC_Core
         if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
             $config = [
                 'slug' => 'wp-posts-calendar-main/wp-posts-calendar.php', // this is the slug of your plugin
-                'proper_folder_name' => 'wp-posts-calendar', // this is the name of the folder your plugin lives in
+                'proper_folder_name' => 'wp-posts-calendar-main', // this is the name of the folder your plugin lives in
                 'api_url' => 'https://api.github.com/repos/rybkinevg/wp-posts-calendar', // the GitHub API url of your GitHub repo
                 'raw_url' => 'https://raw.github.com/rybkinevg/wp-posts-calendar/main', // the GitHub raw url of your GitHub repo
                 'github_url' => 'https://github.com/rybkinevg/wp-posts-calendar', // the GitHub url of your GitHub repo
