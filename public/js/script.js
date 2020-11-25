@@ -1,5 +1,5 @@
 // Инициализация
-$('.wppc-datepicker').datepicker({
+$('.wpsec-datepicker').datepicker({
     toggleSelected: 'click',
     todayButton: new Date(),
     showOtherMonths: false,
@@ -32,13 +32,13 @@ $('.wppc-datepicker').datepicker({
                 date: formattedDate
             },
             success: function (data) {
-                $('.wppc-list').html(data);
+                $('.wpsec-list').html(data);
             },
             error: function (error) {
                 console.error(error);
             }
         });
 
-        $('.wppc-datepicker').blur();
+        $('.wpsec-datepicker').blur();
     }
 })

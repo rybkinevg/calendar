@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Ajax
+class WPSEC_Ajax
 {
     public function __construct()
     {
@@ -16,9 +16,9 @@ class WPPC_Ajax
 
     public function enqueue()
     {
-        if (is_archive(WPPC_Core::$post_type) || is_singular(WPPC_Core::$post_type)) {
+        if (is_archive(WPSEC_Core::$post_type) || is_singular(WPSEC_Core::$post_type)) {
             wp_localize_script(
-                'wppc-script',
+                'wpsec-script',
                 'ajax',
                 [
                     'action' => 'events_filter',
@@ -34,7 +34,7 @@ class WPPC_Ajax
         $date = date("Y-m-d", strtotime($_GET['date']));
 
         $args = [
-            'post_type' => WPPC_Core::$post_type,
+            'post_type' => WPSEC_Core::$post_type,
             'posts_per_page' => -1,
             'meta_query' => [
                 [
@@ -47,7 +47,7 @@ class WPPC_Ajax
 
         $query = new WP_Query($args);
 
-        include(WPPC_DIR . 'templates/loops/events.php');
+        include(WPSEC_DIR . 'templates/loops/events.php');
 
         wp_die();
     }
@@ -57,7 +57,7 @@ class WPPC_Ajax
         $events = [];
 
         $args = [
-            'post_type' => WPPC_Core::$post_type,
+            'post_type' => WPSEC_Core::$post_type,
             'posts_per_page' => -1
         ];
 

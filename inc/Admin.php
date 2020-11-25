@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Admin
+class WPSEC_Admin
 {
     public function __construct()
     {
@@ -17,8 +17,8 @@ class WPPC_Admin
 
     public function include()
     {
-        require_once(WPPC_DIR . 'inc/carbon-fields/carbon-fields-plugin.php');
-        require_once(WPPC_DIR . 'inc/custom-fields/custom-fields.php');
+        require_once(WPSEC_DIR . 'inc/carbon-fields/carbon-fields-plugin.php');
+        require_once(WPSEC_DIR . 'inc/custom-fields/custom-fields.php');
     }
 
     public function create_post_types()
@@ -46,7 +46,7 @@ class WPPC_Admin
             'show_in_rest'        => true, // добавить в REST API. C WP 4.7
             'rest_base'           => null, // $post_type. C WP 4.7
             'menu_position'       => null,
-            'menu_icon'           => 'dashicons-wppc-heart-calendar',
+            'menu_icon'           => 'dashicons-wpsec-heart-calendar',
             'hierarchical'        => false,
             'supports'            => ['title', 'editor'],
             'taxonomies'          => ['event_types'],
@@ -55,7 +55,7 @@ class WPPC_Admin
             'query_var'           => true,
         ];
 
-        register_post_type(WPPC_Core::$post_type, $events_args);
+        register_post_type(WPSEC_Core::$post_type, $events_args);
 
         $organizer_args = [
             'label'  => null,
@@ -80,7 +80,7 @@ class WPPC_Admin
             'show_in_rest'        => true, // добавить в REST API. C WP 4.7
             'rest_base'           => null, // $post_type. C WP 4.7
             'menu_position'       => null,
-            'menu_icon'           => 'dashicons-wppc-heart-calendar',
+            'menu_icon'           => 'dashicons-wpsec-heart-calendar',
             'hierarchical'        => false,
             'supports'            => ['title', 'editor'],
             'taxonomies'          => ['event_types'],
@@ -123,13 +123,13 @@ class WPPC_Admin
             'rest_base'             => null
         ];
 
-        register_taxonomy('event_types', [WPPC_Core::$post_type], $events_tax_args);
+        register_taxonomy('event_types', [WPSEC_Core::$post_type], $events_tax_args);
     }
 
     public function create_import_page()
     {
         add_submenu_page(
-            'edit.php?post_type=' . WPPC_Core::$post_type,
+            'edit.php?post_type=' . WPSEC_Core::$post_type,
             'Организаторы',
             'Организаторы',
             'manage_options',
@@ -137,12 +137,12 @@ class WPPC_Admin
         );
 
         add_submenu_page(
-            'edit.php?post_type=' . WPPC_Core::$post_type,
+            'edit.php?post_type=' . WPSEC_Core::$post_type,
             'Импорт мероприятий',
             'Импорт',
             'manage_options',
             'import',
-            [WPPC_Views::class, 'import_page_view']
+            [WPSEC_Views::class, 'import_page_view']
         );
     }
 }

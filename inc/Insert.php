@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Insert
+class WPSEC_Insert
 {
     public function __construct()
     {
@@ -68,7 +68,7 @@ class WPPC_Insert
     {
         foreach ($data as $key => $value) {
             $post_data = [
-                'post_type'     => WPPC_Core::$post_type,
+                'post_type'     => WPSEC_Core::$post_type,
                 'post_status'   => 'publish',
                 'post_author'   => 1
             ];

@@ -4,7 +4,7 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
 Container::make('theme_options', 'Параметры мероприятий')
-    ->set_page_parent('edit.php?post_type=' . WPPC_Core::$post_type)
+    ->set_page_parent('edit.php?post_type=' . WPSEC_Core::$post_type)
     ->set_page_menu_title('Параметры')
     ->set_page_file('options')
     ->add_tab(
@@ -58,9 +58,9 @@ Container::make('theme_options', 'Параметры мероприятий')
         'Внешний вид',
         [
             Field::make('separator', 'events_loop_sep', 'Классы вывода мероприятий'),
-            Field::make('text', 'wppc_container_classname', 'Класс контейнера'),
-            Field::make('text', 'wppc_ul_classname', 'Класс списка'),
-            Field::make('text', 'wppc_li_classname', 'Класс элемента списка'),
+            Field::make('text', 'wpsec_container_classname', 'Класс контейнера'),
+            Field::make('text', 'wpsec_ul_classname', 'Класс списка'),
+            Field::make('text', 'wpsec_li_classname', 'Класс элемента списка'),
             Field::make('separator', 'event_loop_sep', 'Классы вывода одного мероприятия'),
         ]
     );

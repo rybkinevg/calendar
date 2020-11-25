@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Views
+class WPSEC_Views
 {
     public function __construct()
     {
@@ -14,12 +14,12 @@ class WPPC_Views
 
     public function get_templates($template)
     {
-        if (is_archive(WPPC_Core::$post_type)) {
-            if ($new_template = WPPC_DIR . 'templates/template_events.php')
+        if (is_archive(WPSEC_Core::$post_type)) {
+            if ($new_template = WPSEC_DIR . 'templates/template_events.php')
                 $template = $new_template;
         }
-        if (is_singular(WPPC_Core::$post_type)) {
-            if ($new_template = WPPC_DIR . 'templates/template_single_event.php')
+        if (is_singular(WPSEC_Core::$post_type)) {
+            if ($new_template = WPSEC_DIR . 'templates/template_single_event.php')
                 $template = $new_template;
         }
 
@@ -28,6 +28,6 @@ class WPPC_Views
 
     public static function import_page_view()
     {
-        require_once(WPPC_DIR . 'templates/template_import_page.php');
+        require_once(WPSEC_DIR . 'templates/template_import_page.php');
     }
 }

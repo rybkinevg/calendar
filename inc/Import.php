@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Import
+class WPSEC_Import
 {
     public function __construct()
     {
@@ -22,23 +22,23 @@ class WPPC_Import
     public function enqueue()
     {
         wp_register_script(
-            'wppc-import',
-            WPPC_URL . 'admin/js/script.js',
-            ['wppc-jquery'],
-            filemtime(WPPC_DIR . 'admin/js/script.js'),
+            'wpsec-import',
+            WPSEC_URL . 'admin/js/script.js',
+            ['wpsec-jquery'],
+            filemtime(WPSEC_DIR . 'admin/js/script.js'),
             true
         );
 
         wp_register_script(
-            'wppc-jquery',
+            'wpsec-jquery',
             'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js',
             [],
-            filemtime(WPPC_DIR . 'public/js/datepicker.min.js'),
+            filemtime(WPSEC_DIR . 'public/js/datepicker.min.js'),
             true
         );
 
-        wp_enqueue_script('wppc-import');
-        wp_enqueue_script('wppc-jquery');
+        wp_enqueue_script('wpsec-import');
+        wp_enqueue_script('wpsec-jquery');
     }
 
 
@@ -79,8 +79,8 @@ class WPPC_Import
 
     public function upload_file($upload)
     {
-        $upload['basedir'] = WPPC_DIR;
-        $upload['baseurl'] = WPPC_URL;
+        $upload['basedir'] = WPSEC_DIR;
+        $upload['baseurl'] = WPSEC_URL;
         $upload['subdir'] = 'imports';
         $upload['url']  = $upload['baseurl'] . $upload['subdir'];
         $upload['path'] = $upload['basedir'] . $upload['subdir'];
@@ -109,9 +109,9 @@ class WPPC_Import
     public function insert($array)
     {
         foreach ($array as $key => $value) {
-            if (is_null(get_page_by_title($value['title'], OBJECT, WPPC_Core::$post_type))) {
+            if (is_null(get_page_by_title($value['title'], OBJECT, WPSEC_Core::$post_type))) {
                 $post_data = [
-                    'post_type'     => WPPC_Core::$post_type,
+                    'post_type'     => WPSEC_Core::$post_type,
                     'post_title'    => $value['title'],
                     'post_content'  => $value['content'],
                     'post_status'   => 'publish',

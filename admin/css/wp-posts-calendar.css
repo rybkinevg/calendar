@@ -9,7 +9,7 @@
     font-weight: normal;
     font-style: normal;
 }
-[class*='dashicons-wppc-']:before{
+[class*='dashicons-wpsec-']:before{
 	display: inline-block;
    font-family: 'wp posts calendar';
    font-style: normal;
@@ -18,4 +18,4 @@
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale
 }
-.dashicons-wppc-heart-calendar:before{content:'\0041';}
+.dashicons-wpsec-heart-calendar:before{content:'\0041';}

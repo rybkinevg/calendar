@@ -1,6 +1,6 @@
 <?php
 
-class WPPC_Core
+class WPSEC_Core
 {
     private static $instance;
     public static $post_type = 'events';
@@ -27,16 +27,16 @@ class WPPC_Core
 
     public function include()
     {
-        require_once(WPPC_DIR . 'inc/Admin.php');
-        new WPPC_Admin();
-        require_once(WPPC_DIR . 'inc/Ajax.php');
-        new WPPC_Ajax();
-        require_once(WPPC_DIR . 'inc/Views.php');
-        new WPPC_Views();
-        require_once(WPPC_DIR . 'inc/Import.php');
-        new WPPC_Import();
-        require_once(WPPC_DIR . 'inc/Insert.php');
-        new WPPC_Insert();
+        require_once(WPSEC_DIR . 'inc/Admin.php');
+        new WPSEC_Admin();
+        require_once(WPSEC_DIR . 'inc/Ajax.php');
+        new WPSEC_Ajax();
+        require_once(WPSEC_DIR . 'inc/Views.php');
+        new WPSEC_Views();
+        require_once(WPSEC_DIR . 'inc/Import.php');
+        new WPSEC_Import();
+        require_once(WPSEC_DIR . 'inc/Insert.php');
+        new WPSEC_Insert();
     }
 
     public function hooks()
@@ -48,32 +48,32 @@ class WPPC_Core
     public function enqueue()
     {
         wp_register_style(
-            'wppc-styles',
-            WPPC_URL . 'public/css/styles.css',
+            'wpsec-styles',
+            WPSEC_URL . 'public/css/styles.css',
             [],
-            filemtime(WPPC_DIR . 'public/css/styles.css')
+            filemtime(WPSEC_DIR . 'public/css/styles.css')
         );
 
         wp_register_style(
-            'wppc-datepicker-styles',
-            WPPC_URL . 'public/css/datepicker.min.css',
+            'wpsec-datepicker-styles',
+            WPSEC_URL . 'public/css/datepicker.min.css',
             [],
-            filemtime(WPPC_DIR . 'public/css/datepicker.min.css')
+            filemtime(WPSEC_DIR . 'public/css/datepicker.min.css')
         );
 
         wp_register_script(
-            'wppc-script',
-            WPPC_URL . 'public/js/script.js',
-            ['wppc-jquery', 'wppc-datepicker-script'],
-            filemtime(WPPC_DIR . 'public/js/script.js'),
+            'wpsec-script',
+            WPSEC_URL . 'public/js/script.js',
+            ['wpsec-jquery', 'wpsec-datepicker-script'],
+            filemtime(WPSEC_DIR . 'public/js/script.js'),
             true
         );
 
         wp_register_script(
-            'wppc-datepicker-script',
-            WPPC_URL . 'public/js/datepicker.min.js',
-            ['wppc-jquery'],
-            filemtime(WPPC_DIR . 'public/js/datepicker.min.js'),
+            'wpsec-datepicker-script',
+            WPSEC_URL . 'public/js/datepicker.min.js',
+            ['wpsec-jquery'],
+            filemtime(WPSEC_DIR . 'public/js/datepicker.min.js'),
             true
         );
 
@@ -82,31 +82,31 @@ class WPPC_Core
          */
 
         wp_register_script(
-            'wppc-jquery',
+            'wpsec-jquery',
             'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js',
             [],
-            filemtime(WPPC_DIR . 'public/js/datepicker.min.js'),
+            filemtime(WPSEC_DIR . 'public/js/datepicker.min.js'),
             true
         );
 
         if (is_archive(self::$post_type) || is_singular(self::$post_type)) {
-            wp_enqueue_style('wppc-datepicker-styles');
-            wp_enqueue_style('wppc-styles');
-            wp_enqueue_script('wppc-datepicker-script');
-            wp_enqueue_script('wppc-script');
-            wp_enqueue_script('wppc-jquery');
+            wp_enqueue_style('wpsec-datepicker-styles');
+            wp_enqueue_style('wpsec-styles');
+            wp_enqueue_script('wpsec-datepicker-script');
+            wp_enqueue_script('wpsec-script');
+            wp_enqueue_script('wpsec-jquery');
         }
     }
 
     public function admin_enqueue()
     {
         wp_register_style(
-            'wppc-dashicons',
-            WPPC_URL . 'admin/css/wp-posts-calendar.css',
+            'wpsec-dashicons',
+            WPSEC_URL . 'admin/css/wp-posts-calendar.css',
             [],
-            filemtime(WPPC_DIR . 'admin/css/wp-posts-calendar.css')
+            filemtime(WPSEC_DIR . 'admin/css/wp-posts-calendar.css')
         );
 
-        wp_enqueue_style('wppc-dashicons');
+        wp_enqueue_style('wpsec-dashicons');
     }
 }
