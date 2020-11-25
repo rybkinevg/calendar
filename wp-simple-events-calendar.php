@@ -4,10 +4,10 @@
  * Plugin Name: WP Simple Events Calendar
  * Plugin URI: https://github.com/rybkinevg/wp-posts-calendar
  * Description: Плагин мероприятий с календарём
- * Version: 0.4
+ * Version: 0.1
  * Author: Евгений Рыбкин
  * Author URI: https://github.com/rybkinevg
- * GitHub Plugin URI: https://github.com/rybkinevg/wp-posts-calendar
+ * GitHub Plugin URI: https://github.com/rybkinevg/wp-simple-events-calendar
  * Primary Branch: main
  */
 

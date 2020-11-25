@@ -20,7 +20,7 @@ $query = new WP_Query($args);
 
 <div class="<?= (carbon_get_theme_option('wpsec_container_classname')) ? carbon_get_theme_option('wpsec_class') : 'wpsec-container' ?>">
     <div class="wpsec-controll">
-        <input id="wpsec-datepicker" type='text' class='wpsec-datepicker' autocomplete="off" />
+        <input id="wpsec-datepicker" type='text' class='wpsec-datepicker' autocomplete="off" data-inline="true" />
     </div>
     <div class="wpsec-events">
         <ul class="wpsec-list">

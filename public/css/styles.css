@@ -9,3 +9,15 @@
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
 }
+
+.wpsec-container {
+    display: flex;
+}
+
+.wpsec-controll {
+    width: 30%;
+}
+
+.wpsec-events {
+    width: 100%;
+}
