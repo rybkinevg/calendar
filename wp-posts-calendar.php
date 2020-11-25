@@ -7,6 +7,7 @@
  * Version: 0.4
  * Author: Евгений Рыбкин
  * Author URI: https://github.com/rybkinevg
+ * GitHub Plugin URI: https://github.com/rybkinevg/wp-posts-calendar
  */
 
 if (!defined('ABSPATH')) {
