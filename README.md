@@ -1,3 +1,3 @@
-# WP Posts Calendar
+# WP Simple Events Calendar
 
-Simple WordPress plugin which adds a calendar with marked post dates or custom post types with the ability to switch dates
+Плагин для добавления мероприятий
