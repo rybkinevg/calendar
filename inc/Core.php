@@ -43,7 +43,6 @@ class WPPC_Core
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue']);
-        add_action('init', [$this, 'github_plugin_updater']);
     }
 
     public function enqueue()
@@ -109,29 +108,5 @@ class WPPC_Core
         );
 
         wp_enqueue_style('wppc-dashicons');
-    }
-
-    public function github_plugin_updater()
-    {
-        include_once(WPPC_DIR . 'inc/github-plugin-updater/updater.php');
-
-        define('WP_GITHUB_FORCE_UPDATE', true);
-
-        if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
-            $config = [
-                'slug' => 'wp-posts-calendar-main/wp-posts-calendar.php', // this is the slug of your plugin
-                'proper_folder_name' => 'wp-posts-calendar-main', // this is the name of the folder your plugin lives in
-                'api_url' => 'https://api.github.com/repos/rybkinevg/wp-posts-calendar', // the GitHub API url of your GitHub repo
-                'raw_url' => 'https://raw.github.com/rybkinevg/wp-posts-calendar/main', // the GitHub raw url of your GitHub repo
-                'github_url' => 'https://github.com/rybkinevg/wp-posts-calendar', // the GitHub url of your GitHub repo
-                'zip_url' => 'https://github.com/rybkinevg/wp-posts-calendar/archive/main.zip', // the zip url of the GitHub repo
-                'sslverify' => true, // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
-                'requires' => '5.5', // which version of WordPress does your plugin require?
-                'tested' => '5.5', // which version of WordPress is your plugin tested up to?
-                'readme' => 'README.md', // which file to use as the readme for the version number
-                'access_token' => '', // Access private repositories by authorizing under Plugins > GitHub Updates when this example plugin is installed
-            ];
-            new WP_GitHub_Updater($config);
-        }
     }
 }
