@@ -75,21 +75,22 @@ class WPSEC_Admin
             ],
             'description'         => '',
             'public'              => true,
+            'publicly_queryable'    => false,
             'show_in_menu'        => false, // показывать ли в меню адмнки
             // 'show_in_admin_bar'   => null, // зависит от show_in_menu
-            'show_in_rest'        => true, // добавить в REST API. C WP 4.7
+            'show_in_rest'        => false, // добавить в REST API. C WP 4.7
             'rest_base'           => null, // $post_type. C WP 4.7
             'menu_position'       => null,
             'menu_icon'           => 'dashicons-wpsec-heart-calendar',
             'hierarchical'        => false,
-            'supports'            => ['title', 'editor'],
+            'supports'            => ['title'],
             'taxonomies'          => ['event_types'],
             'has_archive'         => true,
             'rewrite'             => true,
             'query_var'           => true,
         ];
 
-        register_post_type('organizer', $organizer_args);
+        register_post_type('events_organizer', $organizer_args);
     }
 
     public function create_taxonomies()
@@ -133,7 +134,7 @@ class WPSEC_Admin
             'Организаторы',
             'Организаторы',
             'manage_options',
-            'edit.php?post_type=organizer'
+            'edit.php?post_type=events_organizer'
         );
 
         add_submenu_page(

@@ -145,11 +145,11 @@ $(document).ready(function () {
 
     });
 
-    if ($('body').hasClass('post-type-organizer')) {
+    if ($('body').hasClass('post-type-events_organizer')) {
         $('#menu-posts-events, #menu-posts-events a.wp-has-submenu')
             .addClass('wp-menu-open wp-has-current-submenu wp-has-submenu')
             .removeClass('wp-not-current-submenu')
-            .find("li a[href='edit.php?post_type=organizer']")
+            .find("li a[href='edit.php?post_type=events_organizer']")
             .parent()
             .addClass('current');
     }

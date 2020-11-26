@@ -37,6 +37,7 @@ class WPSEC_Ajax
             $args = [
                 'post_type' => WPSEC_Core::$post_type,
                 'posts_per_page' => -1,
+                'post_status' => 'publish',
                 'order' => 'ASC',
                 'orderby' => 'meta_value_num',
                 'meta_key' => '_time_start',
@@ -54,6 +55,7 @@ class WPSEC_Ajax
             $args = [
                 'post_type' => WPSEC_Core::$post_type,
                 'posts_per_page' => -1,
+                'post_status' => 'publish',
                 'order' => 'ASC',
                 'orderby' => 'relevance',
                 's' => $_GET['s']
@@ -73,7 +75,8 @@ class WPSEC_Ajax
 
         $args = [
             'post_type' => WPSEC_Core::$post_type,
-            'posts_per_page' => -1
+            'posts_per_page' => -1,
+            'post_status' => 'publish'
         ];
 
         $query = new WP_Query($args);
@@ -81,7 +84,10 @@ class WPSEC_Ajax
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                array_push($events, carbon_get_post_meta(get_the_ID(), 'date'));
+                $date = carbon_get_post_meta(get_the_ID(), 'date');
+                if (!in_array($date, $events)) {
+                    array_push($events, $date);
+                }
             }
         }
         wp_reset_postdata();

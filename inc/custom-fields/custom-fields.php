@@ -8,5 +8,6 @@ function custom_fields()
 {
     require_once(WPSEC_DIR . 'inc/custom-fields/page-settings.php');
     require_once(WPSEC_DIR . 'inc/custom-fields/events-meta.php');
+    require_once(WPSEC_DIR . 'inc/custom-fields/events-organizer-meta.php');
     //require_once(WPSEC_DIR . 'inc/custom-fields/page-import.php');
 }

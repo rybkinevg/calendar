@@ -5,6 +5,7 @@ get_header();
 $args = [
     'post_type' => WPSEC_Core::$post_type,
     'posts_per_page' => -1,
+    'post_status' => 'publish',
     'order' => 'ASC',
     'orderby' => 'meta_value_num',
     'meta_key' => '_time_start',

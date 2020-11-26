@@ -49,6 +49,14 @@ Container::make('theme_options', 'Параметры мероприятий')
                 ->set_option_value('yes')
                 ->set_default_value('yes')
                 ->set_help_text('Добавлет поле с выбором времени окончания мероприятия'),
+            Field::make('checkbox', 'show_address', 'Адрес проведения мероприятия')
+                ->set_option_value('yes')
+                ->set_default_value('yes')
+                ->set_help_text('Добавлет текстовое поле куда можно записать адрес проведенния мероприятия'),
+            Field::make('checkbox', 'show_place', 'Место проведения мероприятия')
+                ->set_option_value('yes')
+                ->set_default_value('yes')
+                ->set_help_text('Добавлет текстовое поле куда можно записать место проведенния мероприятия'),
             Field::make('checkbox', 'show_thumb', 'Изображение (миниатюра) мероприятия')
                 ->set_option_value('yes')
                 ->set_help_text('Добавлет поле с выбором изображения мероприятия')
